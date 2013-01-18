@@ -14,6 +14,8 @@
 
 		public static const TEST_OBJECT_COUNT:int = 10000;
 
+		private var addingStartTime:Date;
+
 		private var labelList:Vector.<Label> = new Vector.<Label>();
 
 		private function createLabels():void {
@@ -29,10 +31,12 @@
 				labelGroup.addElement(label);
 			}
 			Logger.log(startTime, "creating");
-			panLabels();
+			addingStartTime = new Date();
+			callLater(panLabels);
 		}
 
 		private function panLabels():void {
+			Logger.log(addingStartTime, "adding");
 			var startTime:Date = new Date();
 			panSequence.play();
 			panSequence.addEventListener(EffectEvent.EFFECT_END,
@@ -66,24 +70,24 @@
 
 	<fx:Declarations>
 		<s:Sequence id="panSequence" targets="{[labelGroup]}">
-			<s:Animate duration="500">
+			<s:Animate duration="1000">
 				<s:SimpleMotionPath property="x" valueFrom="0" valueTo="700"/>
 				<s:SimpleMotionPath property="y" valueFrom="0" valueTo="700"/>
 			</s:Animate>
-			<s:Animate duration="500">
+			<s:Animate duration="1000">
 				<s:SimpleMotionPath property="x" valueFrom="700" valueTo="0"/>
 				<s:SimpleMotionPath property="y" valueFrom="700" valueTo="0"/>
 			</s:Animate>
 		</s:Sequence>
 
 		<s:Sequence id="scaleSequence" targets="{[labelGroup]}">
-			<s:Animate duration="500">
-				<s:SimpleMotionPath property="scaleX" valueFrom="1.0" valueTo="0.25"/>
-				<s:SimpleMotionPath property="scaleY" valueFrom="1.0" valueTo="0.25"/>
+			<s:Animate duration="1000">
+				<s:SimpleMotionPath property="scaleX" valueFrom="1.0" valueTo="0.1"/>
+				<s:SimpleMotionPath property="scaleY" valueFrom="1.0" valueTo="0.1"/>
 			</s:Animate>
-			<s:Animate duration="500">
-				<s:SimpleMotionPath property="scaleX" valueFrom="0.25" valueTo="1.0"/>
-				<s:SimpleMotionPath property="scaleY" valueFrom="0.25" valueTo="1.0"/>
+			<s:Animate duration="1000">
+				<s:SimpleMotionPath property="scaleX" valueFrom="0.1" valueTo="1.0"/>
+				<s:SimpleMotionPath property="scaleY" valueFrom="0.1" valueTo="1.0"/>
 			</s:Animate>
 		</s:Sequence>
 	</fx:Declarations>
