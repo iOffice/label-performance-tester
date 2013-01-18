@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="Flex">
     <configurations>
-      <configuration name="Flex" main-class="Application" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Flex" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="Flex" main-class="TestFlex" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Flex" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
         <dependencies target-player="11.4">
           <sdk name="flex_sdk_4.6" />
         </dependencies>

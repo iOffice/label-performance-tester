@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<s:Application
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		width="800" height="800"
+		applicationComplete="createLabels();">
+
+	<fx:Script><![CDATA[
+		import mx.events.EffectEvent;
+
+		import spark.components.Label;
+
+		public static const TEST_OBJECT_COUNT:int = 10000;
+
+		private var labelList:Vector.<Label> = new Vector.<Label>();
+
+		private function formatMilliseconds(value:int):String {
+			var seconds:String = String(Math.floor(value / 1000));
+			var milliseconds:String = pad(String(value % 1000), "0", 3);
+			seconds = seconds + "." + milliseconds;
+			return pad(seconds, " ", 12);
+		}
+
+		private function formatTime(time:Date):String {
+			var hours:String = pad(String(time.hours), "0", 2);
+			var minutes:String = pad(String(time.minutes), "0", 2);
+			var seconds:String = pad(String(time.seconds), "0", 2);
+			var milliseconds:String = pad(String(time.milliseconds), "0", 3);
+			return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+		}
+
+		private function pad(string:String, pad:String, length:int):String {
+			while (string.length < length) {
+				string = pad + string;
+			}
+			return string;
+		}
+
+		private function createLabels():void {
+			var startTime:Date = new Date();
+			var i:int = 0;
+			var count:int = TEST_OBJECT_COUNT;
+			for (i = 0; i < count; i++) {
+				var label:Label = new Label();
+				label.x = Math.random() * 700;
+				label.y = Math.random() * 700;
+				label.text = "This is a label.";
+				labelList.push(label);
+				labelGroup.addElement(label);
+			}
+			var endTime:Date = new Date();
+			var diff:int = endTime.getTime() - startTime.getTime();
+			trace("");
+			trace(formatTime(startTime) + " - started creating labels");
+			trace(formatMilliseconds(diff) + " - seconds elapsed");
+			trace(formatTime(endTime) + " - finished creating labels");
+			panLabels();
+		}
+
+		private function panLabels():void {
+			var startTime:Date = new Date();
+			panSequence.play();
+			panSequence.addEventListener(EffectEvent.EFFECT_END,
+					function (event:EffectEvent):void {
+						var endTime:Date = new Date();
+						var diff:int = endTime.getTime() - startTime.getTime();
+						trace("");
+						trace(formatTime(startTime) + " - started panning labels");
+						trace(formatMilliseconds(diff) + " - seconds elapsed");
+						trace(formatTime(endTime) + " - finished panning labels");
+						scaleLabels();
+					});
+		}
+
+		private function scaleLabels():void {
+			var startTime:Date = new Date();
+			scaleSequence.play();
+			scaleSequence.addEventListener(EffectEvent.EFFECT_END,
+					function (event:EffectEvent):void {
+						var endTime:Date = new Date();
+						var diff:int = endTime.getTime() - startTime.getTime();
+						trace("");
+						trace(formatTime(startTime) + " - started scaling labels");
+						trace(formatMilliseconds(diff) + " - seconds elapsed");
+						trace(formatTime(endTime) + " - finished scaling labels");
+						destroyLabels();
+					});
+		}
+
+		private function destroyLabels():void {
+			var startTime:Date = new Date();
+			var i:int = 0;
+			var count:int = labelList.length;
+			for (i = 0; i < count; i++) {
+				var label:Label = labelList.shift();
+				labelGroup.removeElement(label);
+			}
+			var endTime:Date = new Date();
+			var diff:int = endTime.getTime() - startTime.getTime();
+			trace("");
+			trace(formatTime(startTime) + " - started destroying labels");
+			trace(formatMilliseconds(diff) + " - seconds elapsed");
+			trace(formatTime(endTime) + " - finished destroying labels");
+		}
+		]]></fx:Script>
+
+	<fx:Declarations>
+		<s:Sequence id="panSequence" targets="{[labelGroup]}">
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="x" valueFrom="0" valueTo="700"/>
+				<s:SimpleMotionPath property="y" valueFrom="0" valueTo="700"/>
+			</s:Animate>
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="x" valueFrom="700" valueTo="0"/>
+				<s:SimpleMotionPath property="y" valueFrom="700" valueTo="0"/>
+			</s:Animate>
+		</s:Sequence>
+
+		<s:Sequence id="scaleSequence" targets="{[labelGroup]}">
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="scaleX" valueFrom="1.0" valueTo="0.25"/>
+				<s:SimpleMotionPath property="scaleY" valueFrom="1.0" valueTo="0.25"/>
+			</s:Animate>
+			<s:Animate duration="500">
+				<s:SimpleMotionPath property="scaleX" valueFrom="0.25" valueTo="1.0"/>
+				<s:SimpleMotionPath property="scaleY" valueFrom="0.25" valueTo="1.0"/>
+			</s:Animate>
+		</s:Sequence>
+	</fx:Declarations>
+
+	<s:Group id="labelGroup">
+
+	</s:Group>
+
+</s:Application>

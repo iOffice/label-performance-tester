@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="Bitmap">
     <configurations>
-      <configuration name="Bitmap" main-class="Application" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Bitmap" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="Bitmap" main-class="TestBitmap" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Bitmap" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
         <dependencies target-player="11.4">
           <sdk name="flex_sdk_4.6" />
         </dependencies>
