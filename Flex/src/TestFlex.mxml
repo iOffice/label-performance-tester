@@ -18,7 +18,7 @@
 
 		private function createLabels():void {
 			var startTime:Date = new Date();
-			var i:int = 0;
+			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
 			for (i = 0; i < count; i++) {
 				var label:Label = new Label();
@@ -54,7 +54,7 @@
 
 		private function destroyLabels():void {
 			var startTime:Date = new Date();
-			var i:int = 0;
+			var i:int;
 			var count:int = labelList.length;
 			for (i = 0; i < count; i++) {
 				var label:Label = labelList.shift();
