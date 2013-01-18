@@ -36,6 +36,15 @@
 			return string;
 		}
 
+		private function log(startTime:Date, action:String):void {
+			var endTime:Date = new Date();
+			var diff:int = endTime.getTime() - startTime.getTime();
+			trace("");
+			trace(formatTime(startTime) + " - started " + action + " labels");
+			trace(formatMilliseconds(diff) + " - seconds elapsed");
+			trace(formatTime(endTime) + " - finished " + action + " labels");
+		}
+
 		private function createLabels():void {
 			var startTime:Date = new Date();
 			var i:int = 0;
@@ -48,12 +57,7 @@
 				labelList.push(label);
 				labelGroup.addElement(label);
 			}
-			var endTime:Date = new Date();
-			var diff:int = endTime.getTime() - startTime.getTime();
-			trace("");
-			trace(formatTime(startTime) + " - started creating labels");
-			trace(formatMilliseconds(diff) + " - seconds elapsed");
-			trace(formatTime(endTime) + " - finished creating labels");
+			log(startTime, "creating");
 			panLabels();
 		}
 
@@ -62,12 +66,7 @@
 			panSequence.play();
 			panSequence.addEventListener(EffectEvent.EFFECT_END,
 					function (event:EffectEvent):void {
-						var endTime:Date = new Date();
-						var diff:int = endTime.getTime() - startTime.getTime();
-						trace("");
-						trace(formatTime(startTime) + " - started panning labels");
-						trace(formatMilliseconds(diff) + " - seconds elapsed");
-						trace(formatTime(endTime) + " - finished panning labels");
+						log(startTime, "panning");
 						scaleLabels();
 					});
 		}
@@ -77,12 +76,7 @@
 			scaleSequence.play();
 			scaleSequence.addEventListener(EffectEvent.EFFECT_END,
 					function (event:EffectEvent):void {
-						var endTime:Date = new Date();
-						var diff:int = endTime.getTime() - startTime.getTime();
-						trace("");
-						trace(formatTime(startTime) + " - started scaling labels");
-						trace(formatMilliseconds(diff) + " - seconds elapsed");
-						trace(formatTime(endTime) + " - finished scaling labels");
+						log(startTime, "scaling");
 						destroyLabels();
 					});
 		}
@@ -95,12 +89,7 @@
 				var label:Label = labelList.shift();
 				labelGroup.removeElement(label);
 			}
-			var endTime:Date = new Date();
-			var diff:int = endTime.getTime() - startTime.getTime();
-			trace("");
-			trace(formatTime(startTime) + " - started destroying labels");
-			trace(formatMilliseconds(diff) + " - seconds elapsed");
-			trace(formatTime(endTime) + " - finished destroying labels");
+			log(startTime, "destroying");
 		}
 		]]></fx:Script>
 
@@ -128,8 +117,6 @@
 		</s:Sequence>
 	</fx:Declarations>
 
-	<s:Group id="labelGroup">
-
-	</s:Group>
+	<s:Group id="labelGroup"/>
 
 </s:Application>
