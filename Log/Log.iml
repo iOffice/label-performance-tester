@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="Flash">
+  <component name="FlexBuildConfigurationManager" active="Log">
     <configurations>
-      <configuration name="Flash" main-class="TestFlash" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Flash" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+      <configuration name="Log" pure-as="true" output-type="Library" output-file="Log.swc" output-folder="$MODULE_DIR$/../out/production/Log">
         <dependencies target-player="11.4">
-          <entries>
-            <entry module-name="Log" build-configuration-name="Log">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
           <sdk name="flex_sdk_4.6" />
         </dependencies>
         <compiler-options />
@@ -26,7 +21,6 @@
     </content>
     <orderEntry type="jdk" jdkName="flex_sdk_4.6" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Log" exported="" />
   </component>
 </module>
 
