@@ -31,6 +31,7 @@
 
 		private function createBitmapLabels():void {
 			logView = bitmapLogView;
+			logView.logLabel.text = "";
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
@@ -56,6 +57,7 @@
 
 		private function createFlashLabels():void {
 			logView = flashLogView;
+			logView.logLabel.text = "";
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
@@ -77,6 +79,7 @@
 
 		private function createFlexLabels():void {
 			logView = flexLogView;
+			logView.logLabel.text = "";
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
