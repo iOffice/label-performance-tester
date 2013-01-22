@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		enterFrame="tick();">
+
+	<fx:Script><![CDATA[
+		private static const MB_PER_B:Number = 1.0 / (1024 * 1024);
+
+		private static const NEW_LINE:String = "\r\n";
+
+		private static function formatMilliseconds(value:int):String {
+			var seconds:String = String(Math.floor(value / 1000));
+			var milliseconds:String = pad(String(value % 1000), "0", 3);
+			seconds = seconds + "." + milliseconds;
+			return pad(seconds, " ", 12);
+		}
+
+		private static function formatTime(time:Date):String {
+			var hours:String = pad(String(time.hours), "0", 2);
+			var minutes:String = pad(String(time.minutes), "0", 2);
+			var seconds:String = pad(String(time.seconds), "0", 2);
+			var milliseconds:String = pad(String(time.milliseconds), "0", 3);
+			return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+		}
+
+		private static function pad(string:String, pad:String, length:int):String {
+			while (string.length < length) {
+				string = pad + string;
+			}
+			return string;
+		}
+
+		private var memoryHigh:Number = 0.0;
+		private var lastTimeStamp:uint = getTimer();
+		private var fpsLow:Number = 100.0;
+		private var ticks:uint = 0;
+
+		public function logActionTime(startTime:Date, action:String):void {
+			var endTime:Date = new Date();
+			var diff:int = endTime.getTime() - startTime.getTime();
+			logString(formatTime(startTime) + " - started " + action + " labels");
+			logString(formatMilliseconds(diff) + " - seconds elapsed");
+			logString(formatTime(endTime) + " - finished " + action + " labels");
+
+			var fpsString:String = "N/A";
+			if (fpsLow < 100)
+				fpsString = fpsLow.toFixed(1) + " fps";
+			logString("fps peak low - " + fpsString);
+			fpsLow = 100.0;
+
+			var memoryString:String = "N/A";
+			if (memoryHigh > 0.0)
+				memoryString = memoryHigh.toFixed(1) + " MB";
+			logString("memory peak high - " + memoryString);
+			memoryHigh = 0.0;
+
+			logString("");
+		}
+
+		public function logString(string:String):void {
+			logLabel.text += string + NEW_LINE;
+		}
+
+		public function tick():void {
+			ticks++;
+			var now:uint = getTimer();
+			var delta:uint = now - lastTimeStamp;
+			if (delta >= 1000) {
+				//trace(ticks / delta * 1000+" ticks:"+ticks+" delta:"+delta);
+				var fps:Number = ticks / delta * 1000;
+				fpsLabel.text = "current fps: " + fps.toFixed(1);
+				if (fps < fpsLow)
+					fpsLow = fps;
+
+				var memory:Number = System.totalMemory * MB_PER_B;
+				memoryLabel.text = "current mem: " + memory.toFixed(1);
+				if (memory > memoryHigh)
+					memoryHigh = memory;
+
+				ticks = 0;
+				lastTimeStamp = now;
+			}
+		}
+		]]></fx:Script>
+
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+	<s:Label id="fpsLabel" width="100%" fontFamily="_typewriter"/>
+
+	<s:Label id="memoryLabel" width="100%" fontFamily="_typewriter"/>
+
+	<s:TextArea id="logLabel" width="100%" fontFamily="_typewriter" heightInLines="10"/>
+
+</s:Group>
