@@ -27,8 +27,7 @@
 		private var scaleSequence:TimelineLite;
 
 		private function resetBitmapMatrix():void {
-			var matrix:Matrix = this.transform.concatenatedMatrix;
-			this.cacheAsBitmapMatrix = matrix;
+			cacheAsBitmapMatrix = transform.concatenatedMatrix;
 		}
 
 		public function createBitmapLabels():void {

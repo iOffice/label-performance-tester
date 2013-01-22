@@ -13,10 +13,8 @@
 
 		import views.Stats;
 
-		private var stats:Stats;
-
 		private function init():void {
-			stats = new Stats();
+			var stats:Stats = new Stats();
 			stats.scaleX = stats.scaleY = 1.5;
 			var element:SpriteVisualElement = new SpriteVisualElement();
 			element.addChild(stats);

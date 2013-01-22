@@ -152,7 +152,7 @@ public class Stats extends Sprite {
 
 	// .. Utils
 
-	private function hex2css(color:int):String {
+	private static function hex2css(color:int):String {
 
 		return "#" + color.toString(16);
 
