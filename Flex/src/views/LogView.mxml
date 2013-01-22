@@ -5,11 +5,9 @@
 		enterFrame="tick();">
 
 	<fx:Script><![CDATA[
-		private static const MB_PER_B:Number = 1.0 / (1024 * 1024);
+		protected static const NEW_LINE:String = "\r\n";
 
-		private static const NEW_LINE:String = "\r\n";
-
-		private static function formatMilliseconds(value:int):String {
+		protected static function formatMilliseconds(value:int):String {
 			var seconds:String = String(Math.floor(value / 1000));
 			var milliseconds:String = pad(String(value % 1000), "0", 3);
 			seconds = seconds + "." + milliseconds;
@@ -17,7 +15,7 @@
 			//return pad(seconds, " ", 12);
 		}
 
-		private static function formatTime(time:Date):String {
+		protected static function formatTime(time:Date):String {
 			var hours:String = pad(String(time.hours), "0", 2);
 			var minutes:String = pad(String(time.minutes), "0", 2);
 			var seconds:String = pad(String(time.seconds), "0", 2);
@@ -25,17 +23,16 @@
 			return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 		}
 
-		private static function pad(string:String, pad:String, length:int):String {
+		protected static function pad(string:String, pad:String, length:int):String {
 			while (string.length < length) {
 				string = pad + string;
 			}
 			return string;
 		}
 
-		private var memoryHigh:Number = 0.0;
-		private var lastTimeStamp:uint = getTimer();
-		private var fpsLow:Number = 100.0;
-		private var ticks:uint = 0;
+		protected var fpsLow:uint = 100;
+		protected var memHigh:Number = 0.0;
+		public var stats:Stats;
 
 		public function logActionTime(startTime:Date, action:String):void {
 			var endTime:Date = new Date();
@@ -49,15 +46,15 @@
 
 			var fpsString:String = "N/A";
 			if (fpsLow < 100)
-				fpsString = fpsLow.toFixed(1) + " fps";
+				fpsString = String(fpsLow) + " fps";
 			logString("fps peak low - " + fpsString);
-			fpsLow = 100.0;
+			fpsLow = 100;
 
 			var memoryString:String = "N/A";
-			if (memoryHigh > 0.0)
-				memoryString = memoryHigh.toFixed(1) + " MB";
+			if (memHigh > 0.0)
+				memoryString = memHigh.toFixed(1) + " MB";
 			logString("memory peak high - " + memoryString);
-			memoryHigh = 0.0;
+			memHigh = 0.0;
 		}
 
 		public function logString(string:String):void {
@@ -68,22 +65,16 @@
 		}
 
 		public function tick():void {
-			ticks++;
-			var now:uint = getTimer();
-			var delta:uint = now - lastTimeStamp;
-			if (delta >= 1000) {
-				//trace(ticks / delta * 1000+" ticks:"+ticks+" delta:"+delta);
-				var fps:Number = ticks / delta * 1000;
-				if (fps < fpsLow)
-					fpsLow = fps;
+			if (!stats)
+				return;
 
-				var memory:Number = System.totalMemory * MB_PER_B;
-				if (memory > memoryHigh)
-					memoryHigh = memory;
+			var fps:uint = stats.fps;
+			if (fps < fpsLow)
+				fpsLow = fps;
 
-				ticks = 0;
-				lastTimeStamp = now;
-			}
+			var mem:Number = stats.mem;
+			if (mem > memHigh)
+				memHigh = mem;
 		}
 		]]></fx:Script>
 

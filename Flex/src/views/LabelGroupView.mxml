@@ -14,19 +14,23 @@
 
 		public static const TEST_OBJECT_COUNT:int = 10000;
 
-		private var addedCount:int;
+		protected static const TWEEN_DURATION:int = 2;
 
-		private var addingStartTime:Date;
+		protected static const TWEEN_DURATION_LOG:String = " (" + String(TWEEN_DURATION * 2) + " second tween)";
 
-		private var labelList:Array = [];
+		protected var addedCount:int;
+
+		protected var addingStartTime:Date;
+
+		protected var labelList:Array = [];
 
 		public var logView:LogView;
 
-		private var panSequence:TimelineLite;
+		protected var panSequence:TimelineLite;
 
-		private var scaleSequence:TimelineLite;
+		protected var scaleSequence:TimelineLite;
 
-		private function resetBitmapMatrix():void {
+		protected function resetBitmapMatrix():void {
 			cacheAsBitmapMatrix = transform.concatenatedMatrix;
 		}
 
@@ -93,7 +97,7 @@
 			callLater(addLabels);
 		}
 
-		private function addLabels():void {
+		protected function addLabels():void {
 			addedCount = 0;
 			addingStartTime = new Date();
 			var i:int;
@@ -105,7 +109,7 @@
 			}
 		}
 
-		private function handleAddedToStage(event:Event):void {
+		protected function handleAddedToStage(event:Event):void {
 			var label:IVisualElement = event.currentTarget as IVisualElement;
 			label.removeEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
 			addedCount++;
@@ -114,48 +118,48 @@
 				callLater(addingComplete);
 		}
 
-		private function addingComplete():void {
+		protected function addingComplete():void {
 			resetBitmapMatrix();
 			logView.logActionTime(addingStartTime, "ADDING");
 
 			callLater(panLabels);
 		}
 
-		private function panLabels():void {
+		protected function panLabels():void {
 			suspendBackgroundProcessing();
 			var startTime:Date = new Date();
 			panSequence = new TimelineLite({onComplete: panComplete, onCompleteParams: [startTime]});
-			panSequence.append(new TweenLite(this, 2, {x: "800", y: "400"}));
-			panSequence.append(new TweenLite(this, 2, {x: "-800", y: "-400"}));
+			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "800", y: "400"}));
+			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "-800", y: "-400"}));
 			panSequence.play();
 		}
 
-		private function panComplete():void {
-			logView.logActionTime(arguments[0], "PANNING");
+		protected function panComplete():void {
+			logView.logActionTime(arguments[0], "PANNING" + TWEEN_DURATION_LOG);
 			panSequence = null;
 			resumeBackgroundProcessing();
 
 			callLater(scaleLabels);
 		}
 
-		private function scaleLabels():void {
+		protected function scaleLabels():void {
 			suspendBackgroundProcessing();
 			var startTime:Date = new Date();
 			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
-			scaleSequence.append(new TweenLite(this, 2, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(this, 2, {scaleX: "0.9", scaleY: "0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "0.9", scaleY: "0.9"}));
 			scaleSequence.play();
 		}
 
-		private function scaleComplete():void {
-			logView.logActionTime(arguments[0], "SCALING");
+		protected function scaleComplete():void {
+			logView.logActionTime(arguments[0], "SCALING" + TWEEN_DURATION_LOG);
 			scaleSequence = null;
 			resumeBackgroundProcessing();
 
 			callLater(destroyLabels);
 		}
 
-		private function destroyLabels():void {
+		protected function destroyLabels():void {
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = labelList.length;

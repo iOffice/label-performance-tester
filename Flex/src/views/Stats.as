@@ -22,10 +22,10 @@ public class Stats extends Sprite {
 	protected var style:StyleSheet;
 
 	protected var timer:uint;
-	protected var fps:uint;
+	public var fps:uint;
 	protected var ms:uint;
 	protected var ms_prev:uint;
-	protected var mem:Number;
+	public var mem:Number;
 	protected var mem_max:Number;
 
 	protected var graph:BitmapData;

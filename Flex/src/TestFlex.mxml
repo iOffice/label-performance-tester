@@ -16,9 +16,14 @@
 		private function init():void {
 			var stats:Stats = new Stats();
 			stats.scaleX = stats.scaleY = 1.5;
+
 			var element:SpriteVisualElement = new SpriteVisualElement();
 			element.addChild(stats);
 			addElement(element);
+
+			bitmapLogView.stats = stats;
+			flashLogView.stats = stats;
+			flexLogView.stats = stats;
 		}
 
 		private function createBitmapLabels():void {
