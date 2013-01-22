@@ -163,6 +163,7 @@
 				this.removeElement(labelList.shift());
 			}
 			logView.logActionTime(startTime, "DESTROYING");
+			System.gc();
 		}
 		]]></fx:Script>
 
