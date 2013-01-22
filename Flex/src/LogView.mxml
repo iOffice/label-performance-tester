@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		enterFrame="tick();">
 
@@ -38,9 +39,9 @@
 		public function logActionTime(startTime:Date, action:String):void {
 			var endTime:Date = new Date();
 			var diff:int = endTime.getTime() - startTime.getTime();
-			logString(formatTime(startTime) + " - started " + action + " labels");
+			logString(formatTime(startTime) + " - started " + action);
 			logString(formatMilliseconds(diff) + " - seconds elapsed");
-			logString(formatTime(endTime) + " - finished " + action + " labels");
+			logString(formatTime(endTime) + " - finished " + action);
 
 			var fpsString:String = "N/A";
 			if (fpsLow < 100)
@@ -91,6 +92,6 @@
 
 	<s:Label id="memoryLabel" width="100%" fontFamily="_typewriter"/>
 
-	<s:TextArea id="logLabel" width="100%" fontFamily="_typewriter" heightInLines="10"/>
+	<s:TextArea id="logLabel" width="100%" fontFamily="_typewriter" heightInLines="12"/>
 
 </s:Group>
