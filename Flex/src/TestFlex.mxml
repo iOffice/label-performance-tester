@@ -38,7 +38,7 @@
 
 				var bitmapData:BitmapData = new BitmapData(textField.width, textField.height);
 				bitmapData.draw(textField);
-				var bitmap:Bitmap = new Bitmap(bitmapData)
+				var bitmap:Bitmap = new Bitmap(bitmapData);
 
 				var element:SpriteVisualElement = new SpriteVisualElement();
 				element.addChild(bitmap);
