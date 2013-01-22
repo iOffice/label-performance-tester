@@ -10,10 +10,14 @@
 		import com.greensock.TimelineLite;
 		import com.greensock.TweenLite;
 
+		import mx.core.IVisualElement;
+
 		import spark.components.Label;
 		import spark.core.SpriteVisualElement;
 
 		public static const TEST_OBJECT_COUNT:int = 10000;
+
+		private var addedCount:int;
 
 		private var addingStartTime:Date;
 
@@ -32,15 +36,15 @@
 			var count:int = TEST_OBJECT_COUNT;
 			for (i = 0; i < count; i++) {
 				var textField:TextField = new TextField();
-				textField.x = Math.random() * 760;
-				textField.y = Math.random() * 460;
-				textField.text = "This is a label.";
+				textField.text = "This is label " + String(i);
 
 				var bitmapData:BitmapData = new BitmapData(textField.width, textField.height);
 				bitmapData.draw(textField);
 				var bitmap:Bitmap = new Bitmap(bitmapData);
 
 				var element:SpriteVisualElement = new SpriteVisualElement();
+				element.x = Math.random() * 760;
+				element.y = Math.random() * 460;
 				element.addChild(bitmap);
 
 				labelList.push(element);
@@ -57,11 +61,11 @@
 			var count:int = TEST_OBJECT_COUNT;
 			for (i = 0; i < count; i++) {
 				var textField:TextField = new TextField();
-				textField.x = Math.random() * 760;
-				textField.y = Math.random() * 460;
-				textField.text = "This is a label.";
+				textField.text = "This is label " + String(i);
 
 				var element:SpriteVisualElement = new SpriteVisualElement();
+				element.x = Math.random() * 760;
+				element.y = Math.random() * 460;
 				element.addChild(textField);
 
 				labelList.push(element);
@@ -80,7 +84,7 @@
 				var label:Label = new Label();
 				label.x = Math.random() * 600;
 				label.y = Math.random() * 400;
-				label.text = "This is a label.";
+				label.text = "This is label " + String(i);
 				labelList.push(label);
 			}
 			logView.logActionTime(startTime, "creating Flex Labels");
@@ -89,13 +93,24 @@
 		}
 
 		private function addLabels():void {
+			addedCount = 0;
 			addingStartTime = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
 			for (i = 0; i < count; i++) {
-				labelGroup.addElement(labelList[i]);
+				var label:IVisualElement = labelList[i];
+				label.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+				labelGroup.addElement(label);
 			}
-			callLater(addingComplete);
+		}
+
+		private function handleAddedToStage(event:Event):void {
+			var label:IVisualElement = event.currentTarget as IVisualElement;
+			label.removeEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
+			addedCount++;
+
+			if (addedCount == TEST_OBJECT_COUNT)
+				callLater(addingComplete);
 		}
 
 		private function addingComplete():void {
@@ -135,7 +150,7 @@
 			scaleSequence = null;
 			resumeBackgroundProcessing();
 
-			destroyLabels();
+			callLater(destroyLabels);
 		}
 
 		private function destroyLabels():void {
