@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="Flex">
+  <component name="FlexBuildConfigurationManager" active="AIR">
     <configurations>
-      <configuration name="Flex" main-class="TestFlex" output-file="Application.swf" output-folder="$MODULE_DIR$/../out/production/Flex" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
-        <dependencies target-player="11.4">
+      <configuration name="AIR" target-platform="Desktop" main-class="TestFlex" output-file="AIR.swf" output-folder="$MODULE_DIR$/../out/production/Flex">
+        <dependencies>
           <entries>
-            <entry library-id="9c6b3a1e-61af-4136-9049-732358f902c2">
+            <entry library-id="7c1518ab-cf9d-4ab4-840f-77b578e6d0bc">
               <dependency linkage="Include" />
             </entry>
           </entries>
           <sdk name="flex_sdk_4.6" />
         </dependencies>
         <compiler-options />
-        <packaging-air-desktop />
+        <packaging-air-desktop package-file-name="AIR" />
         <packaging-android />
         <packaging-ios />
       </configuration>
@@ -28,7 +28,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
-        <properties id="9c6b3a1e-61af-4136-9049-732358f902c2" />
+        <properties id="7c1518ab-cf9d-4ab4-840f-77b578e6d0bc" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
         </CLASSES>

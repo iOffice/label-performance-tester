@@ -1,208 +1,69 @@
 <?xml version="1.0"?>
 <s:Application
 		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
-		xmlns:local="*"
+		xmlns:views="views.*"
 		width="100%" height="100%"
-		frameRate="60">
+		frameRate="60"
+		applicationComplete="init();">
 
 	<fx:Script><![CDATA[
-		import com.greensock.TimelineLite;
-		import com.greensock.TweenLite;
-
-		import mx.core.IVisualElement;
-
-		import spark.components.Label;
 		import spark.core.SpriteVisualElement;
 
-		public static const TEST_OBJECT_COUNT:int = 10000;
+		import views.Stats;
 
-		private var addedCount:int;
+		private var stats:Stats;
 
-		private var addingStartTime:Date;
-
-		private var labelList:Array = [];
-
-		private var logView:LogView;
-
-		private var panSequence:TimelineLite;
-
-		private var scaleSequence:TimelineLite;
+		private function init():void {
+			stats = new Stats();
+			stats.scaleX = stats.scaleY = 1.5;
+			var element:SpriteVisualElement = new SpriteVisualElement();
+			element.addChild(stats);
+			addElement(element);
+		}
 
 		private function createBitmapLabels():void {
-			logView = bitmapLogView;
-			logView.logLabel.text = "";
-			var startTime:Date = new Date();
-			var i:int;
-			var count:int = TEST_OBJECT_COUNT;
-			for (i = 0; i < count; i++) {
-				var textField:TextField = new TextField();
-				textField.text = "This is label " + String(i);
-
-				var bitmapData:BitmapData = new BitmapData(textField.width, textField.height);
-				bitmapData.draw(textField);
-				var bitmap:Bitmap = new Bitmap(bitmapData);
-
-				var element:SpriteVisualElement = new SpriteVisualElement();
-				element.x = Math.random() * 760;
-				element.y = Math.random() * 460;
-				element.addChild(bitmap);
-
-				labelList.push(element);
-			}
-			logView.logActionTime(startTime, "creating Bitmaps");
-
-			callLater(addLabels);
+			labelGroup.logView = bitmapLogView;
+			labelGroup.createBitmapLabels();
 		}
 
 		private function createFlashLabels():void {
-			logView = flashLogView;
-			logView.logLabel.text = "";
-			var startTime:Date = new Date();
-			var i:int;
-			var count:int = TEST_OBJECT_COUNT;
-			for (i = 0; i < count; i++) {
-				var textField:TextField = new TextField();
-				textField.text = "This is label " + String(i);
-
-				var element:SpriteVisualElement = new SpriteVisualElement();
-				element.x = Math.random() * 760;
-				element.y = Math.random() * 460;
-				element.addChild(textField);
-
-				labelList.push(element);
-			}
-			logView.logActionTime(startTime, "creating Flash TextFields");
-
-			callLater(addLabels);
+			labelGroup.logView = flashLogView;
+			labelGroup.createFlashLabels();
 		}
 
 		private function createFlexLabels():void {
-			logView = flexLogView;
-			logView.logLabel.text = "";
-			var startTime:Date = new Date();
-			var i:int;
-			var count:int = TEST_OBJECT_COUNT;
-			for (i = 0; i < count; i++) {
-				var label:Label = new Label();
-				label.x = Math.random() * 600;
-				label.y = Math.random() * 400;
-				label.text = "This is label " + String(i);
-				labelList.push(label);
-			}
-			logView.logActionTime(startTime, "creating Flex Labels");
-
-			callLater(addLabels);
-		}
-
-		private function addLabels():void {
-			addedCount = 0;
-			addingStartTime = new Date();
-			var i:int;
-			var count:int = TEST_OBJECT_COUNT;
-			for (i = 0; i < count; i++) {
-				var label:IVisualElement = labelList[i];
-				label.addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
-				labelGroup.addElement(label);
-			}
-		}
-
-		private function handleAddedToStage(event:Event):void {
-			var label:IVisualElement = event.currentTarget as IVisualElement;
-			label.removeEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
-			addedCount++;
-
-			if (addedCount == TEST_OBJECT_COUNT)
-				callLater(addingComplete);
-		}
-
-		private function addingComplete():void {
-			logView.logActionTime(addingStartTime, "adding");
-
-			callLater(panLabels);
-		}
-
-		private function panLabels():void {
-			suspendBackgroundProcessing();
-			var startTime:Date = new Date();
-			panSequence = new TimelineLite({onComplete: panComplete, onCompleteParams: [startTime]});
-			panSequence.append(new TweenLite(labelGroup, 2, {x: "800", y: "400"}));
-			panSequence.append(new TweenLite(labelGroup, 2, {x: "-800", y: "-400"}));
-			panSequence.play();
-		}
-
-		private function panComplete():void {
-			logView.logActionTime(arguments[0], "panning");
-			panSequence = null;
-			resumeBackgroundProcessing();
-
-			callLater(scaleLabels);
-		}
-
-		private function scaleLabels():void {
-			suspendBackgroundProcessing();
-			var startTime:Date = new Date();
-			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
-			scaleSequence.append(new TweenLite(labelGroup, 2, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(labelGroup, 2, {scaleX: "0.9", scaleY: "0.9"}));
-			scaleSequence.play();
-		}
-
-		private function scaleComplete():void {
-			logView.logActionTime(arguments[0], "scaling");
-			scaleSequence = null;
-			resumeBackgroundProcessing();
-
-			callLater(destroyLabels);
-		}
-
-		private function destroyLabels():void {
-			var startTime:Date = new Date();
-			var i:int;
-			var count:int = labelList.length;
-			for (i = 0; i < count; i++) {
-				labelGroup.removeElement(labelList.shift());
-			}
-			logView.logActionTime(startTime, "destroying");
+			labelGroup.logView = flexLogView;
+			labelGroup.createFlexLabels();
 		}
 		]]></fx:Script>
 
-	<s:layout>
-		<s:VerticalLayout/>
-	</s:layout>
+	<mx:VDividedBox width="100%" height="100%">
 
-	<s:Group width="100%" height="100%">
-		<s:Group id="labelGroup" cacheAsBitmap="true"/>
-	</s:Group>
-
-	<s:Group width="100%">
-		<s:layout>
-			<s:HorizontalLayout/>
-		</s:layout>
-
-		<s:Group width="100%">
-			<s:layout>
-				<s:VerticalLayout/>
-			</s:layout>
-			<s:Button id="flexButton" label="Run Spark Label Test" click="createFlexLabels();"/>
-			<local:LogView id="flexLogView" width="100%"/>
+		<s:Group width="100%" height="75%">
+			<views:LabelGroupView id="labelGroup"/>
 		</s:Group>
 
-		<s:Group width="100%">
-			<s:layout>
-				<s:VerticalLayout/>
-			</s:layout>
-			<s:Button id="flashButton" label="Run Text Field Test" click="createFlashLabels();"/>
-			<local:LogView id="flashLogView" width="100%"/>
-		</s:Group>
+		<s:HGroup width="100%" height="25%">
 
-		<s:Group width="100%">
-			<s:layout>
-				<s:VerticalLayout/>
-			</s:layout>
-			<s:Button id="bitmapButton" label="Run Bitmap Text Test" click="createBitmapLabels();"/>
-			<local:LogView id="bitmapLogView" width="100%"/>
-		</s:Group>
-	</s:Group>
+			<s:VGroup width="100%" height="100%">
+				<s:Button id="flexButton" label="Run Spark Label Test" click="createFlexLabels();"/>
+				<views:LogView id="flexLogView" width="100%" height="100%"/>
+			</s:VGroup>
+
+			<s:VGroup width="100%" height="100%">
+				<s:Button id="flashButton" label="Run Text Field Test" click="createFlashLabels();"/>
+				<views:LogView id="flashLogView" width="100%" height="100%"/>
+			</s:VGroup>
+
+			<s:VGroup width="100%" height="100%">
+				<s:Button id="bitmapButton" label="Run Bitmap Text Test" click="createBitmapLabels();"/>
+				<views:LogView id="bitmapLogView" width="100%" height="100%"/>
+			</s:VGroup>
+
+		</s:HGroup>
+
+	</mx:VDividedBox>
 
 </s:Application>
