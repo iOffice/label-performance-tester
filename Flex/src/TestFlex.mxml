@@ -24,6 +24,7 @@
 			bitmapLogView.stats = stats;
 			flashLogView.stats = stats;
 			flexLogView.stats = stats;
+			onCacheOptionsChange();
 		}
 
 		private function createBitmapLabels():void {
@@ -41,7 +42,7 @@
 			labelGroup.createFlexLabels();
 		}
 
-		private function onCacheOptionsChange(event:MouseEvent):void {
+		private function onCacheOptionsChange(event:MouseEvent=null):void {
 			if(cacheAsBitmapCheckBox.selected) {
 				labelGroup.cacheAsBitmap = true;
 				cacheAsBitmapMatrixCheckBox.enabled = true;
