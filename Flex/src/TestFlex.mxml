@@ -47,7 +47,7 @@
 				labelGroup.cacheAsBitmap = true;
 				cacheAsBitmapMatrixCheckBox.enabled = true;
 				if(cacheAsBitmapMatrixCheckBox.selected) {
-					labelGroup.cacheAsBitmapMatrix = labelGroup.transform.concatenatedMatrix;
+					labelGroup.cacheAsBitmapMatrix = new Matrix();
 				}
 			}
 			else {
