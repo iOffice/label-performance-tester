@@ -12,7 +12,7 @@
 		import spark.components.Label;
 		import spark.core.SpriteVisualElement;
 
-		public static const TEST_OBJECT_COUNT:int = 10000;
+		public static const TEST_OBJECT_COUNT:int = 5000;
 
 		protected static const TWEEN_DURATION:int = 2;
 
@@ -29,34 +29,26 @@
 		protected var panSequence:TimelineLite;
 
 		protected var scaleSequence:TimelineLite;
-
-		protected function resetBitmapMatrix():void {
-			cacheAsBitmapMatrix = transform.concatenatedMatrix;
-		}
+		private var bitmapData:BitmapData;
 
 		public function createBitmapLabels():void {
 			logView.logLabel.text = "";
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
+			var textField:TextField = new TextField();
+			bitmapData = new BitmapData(760, 460, true);
 			for (i = 0; i < count; i++) {
-				var textField:TextField = new TextField();
 				textField.text = "This is label " + String(i);
-
-				var bitmapData:BitmapData = new BitmapData(textField.width, textField.height);
-				bitmapData.draw(textField);
-				var bitmap:Bitmap = new Bitmap(bitmapData);
-
-				var element:SpriteVisualElement = new SpriteVisualElement();
-				element.x = Math.random() * 760;
-				element.y = Math.random() * 460;
-				element.addChild(bitmap);
-
-				labelList.push(element);
+				bitmapData.draw(textField,new Matrix(1,0,0,1,Math.random() * 760,Math.random() * 460));
 			}
-			logView.logActionTime(startTime, "CREATING Bitmaps");
+			var element:SpriteVisualElement = new SpriteVisualElement();
+			element.addChild(new Bitmap(bitmapData));
 
-			callLater(addLabels);
+			this.addElement(element);
+			logView.logActionTime(startTime, "CREATING Bitmaps");
+			addingStartTime = new Date();
+			addingComplete();
 		}
 
 		public function createFlashLabels():void {
@@ -119,7 +111,6 @@
 		}
 
 		protected function addingComplete():void {
-			resetBitmapMatrix();
 			logView.logActionTime(addingStartTime, "ADDING");
 
 			callLater(panLabels);
@@ -147,7 +138,7 @@
 			var startTime:Date = new Date();
 			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
 			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "0.9", scaleY: "0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "2", scaleY: "2"}));
 			scaleSequence.play();
 		}
 
@@ -161,12 +152,11 @@
 
 		protected function destroyLabels():void {
 			var startTime:Date = new Date();
-			var i:int;
-			var count:int = labelList.length;
-			for (i = 0; i < count; i++) {
-				this.removeElement(labelList.shift());
-			}
+			this.removeAllElements();
 			logView.logActionTime(startTime, "DESTROYING");
+			if(bitmapData) {
+				bitmapData.dispose();
+			}
 			System.gc();
 		}
 		]]></fx:Script>
