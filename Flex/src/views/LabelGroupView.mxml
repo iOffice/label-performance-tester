@@ -14,9 +14,13 @@
 
 		public static const TEST_OBJECT_COUNT:int = 5000;
 
-		protected static const TWEEN_DURATION:int = 2;
+		protected static const TWEEN_PAN_DURATION:int = 2;
 
-		protected static const TWEEN_DURATION_LOG:String = " (" + String(TWEEN_DURATION * 2) + " second tween)";
+		protected static const TWEEN_PAN_DURATION_LOG:String = " (" + String(TWEEN_PAN_DURATION * 2) + " second tween)";
+
+		protected static const TWEEN_SCALE_DURATION:int = 1;
+
+		protected static const TWEEN_SCALE_DURATION_LOG:String = " (" + String(TWEEN_SCALE_DURATION * 4) + " second tween)";
 
 		protected var addedCount:int;
 
@@ -120,13 +124,13 @@
 			suspendBackgroundProcessing();
 			var startTime:Date = new Date();
 			panSequence = new TimelineLite({onComplete: panComplete, onCompleteParams: [startTime]});
-			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "+800", y: "+400"}));
-			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "-800", y: "-400"}));
+			panSequence.append(new TweenLite(this, TWEEN_PAN_DURATION, {x: "+800", y: "+400"}));
+			panSequence.append(new TweenLite(this, TWEEN_PAN_DURATION, {x: "-800", y: "-400"}));
 			panSequence.play();
 		}
 
 		protected function panComplete():void {
-			logView.logActionTime(arguments[0], "PANNING" + TWEEN_DURATION_LOG);
+			logView.logActionTime(arguments[0], "PANNING" + TWEEN_PAN_DURATION_LOG);
 			panSequence = null;
 			resumeBackgroundProcessing();
 
@@ -137,15 +141,15 @@
 			suspendBackgroundProcessing();
 			var startTime:Date = new Date();
 			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "+0.9", scaleY: "+0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "+1.0", scaleY: "+1.0"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-1.0", scaleY: "-1.0"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_SCALE_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_SCALE_DURATION, {scaleX: "+0.9", scaleY: "+0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_SCALE_DURATION, {scaleX: "+1.0", scaleY: "+1.0"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_SCALE_DURATION, {scaleX: "-1.0", scaleY: "-1.0"}));
 			scaleSequence.play();
 		}
 
 		protected function scaleComplete():void {
-			logView.logActionTime(arguments[0], "SCALING" + TWEEN_DURATION_LOG);
+			logView.logActionTime(arguments[0], "SCALING" + TWEEN_SCALE_DURATION_LOG);
 			scaleSequence = null;
 			resumeBackgroundProcessing();
 
