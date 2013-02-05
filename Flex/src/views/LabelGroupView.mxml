@@ -40,7 +40,7 @@
 			bitmapData = new BitmapData(760, 460, true);
 			for (i = 0; i < count; i++) {
 				textField.text = "This is label " + String(i);
-				bitmapData.draw(textField,new Matrix(1,0,0,1,Math.random() * 760,Math.random() * 460));
+				bitmapData.draw(textField, new Matrix(1, 0, 0, 1, Math.random() * 760, Math.random() * 460));
 			}
 			var element:SpriteVisualElement = new SpriteVisualElement();
 			element.addChild(new Bitmap(bitmapData));
@@ -138,8 +138,9 @@
 			var startTime:Date = new Date();
 			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
 			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "2", scaleY: "2"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "1", scaleY: "1"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "0.9", scaleY: "0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "1.0", scaleY: "1.0"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-1.0", scaleY: "-1.0"}));
 			scaleSequence.play();
 		}
 
@@ -155,7 +156,7 @@
 			var startTime:Date = new Date();
 			this.removeAllElements();
 			logView.logActionTime(startTime, "DESTROYING");
-			if(bitmapData) {
+			if (bitmapData) {
 				bitmapData.dispose();
 			}
 			System.gc();
