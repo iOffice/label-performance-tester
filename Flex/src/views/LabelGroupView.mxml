@@ -120,7 +120,7 @@
 			suspendBackgroundProcessing();
 			var startTime:Date = new Date();
 			panSequence = new TimelineLite({onComplete: panComplete, onCompleteParams: [startTime]});
-			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "800", y: "400"}));
+			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "+800", y: "+400"}));
 			panSequence.append(new TweenLite(this, TWEEN_DURATION, {x: "-800", y: "-400"}));
 			panSequence.play();
 		}
@@ -138,8 +138,8 @@
 			var startTime:Date = new Date();
 			scaleSequence = new TimelineLite({onComplete: scaleComplete, onCompleteParams: [startTime]});
 			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-0.9", scaleY: "-0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "0.9", scaleY: "0.9"}));
-			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "1.0", scaleY: "1.0"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "+0.9", scaleY: "+0.9"}));
+			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "+1.0", scaleY: "+1.0"}));
 			scaleSequence.append(new TweenLite(this, TWEEN_DURATION, {scaleX: "-1.0", scaleY: "-1.0"}));
 			scaleSequence.play();
 		}
