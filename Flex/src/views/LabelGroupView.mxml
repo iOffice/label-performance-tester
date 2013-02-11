@@ -41,7 +41,7 @@
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
 			var textField:TextField = new TextField();
-			bitmapData = new BitmapData(760, 460, true);
+			bitmapData = new BitmapData(760, 460, true, 0x000000);
 			for (i = 0; i < count; i++) {
 				textField.text = "This is label " + String(i);
 				bitmapData.draw(textField, new Matrix(1, 0, 0, 1, Math.random() * 760, Math.random() * 460));
