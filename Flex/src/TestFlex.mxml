@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <s:Application
 		xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		xmlns:views="views.*"
 		width="100%" height="100%"
 		frameRate="60"
-		applicationComplete="init();">
+		applicationComplete="init();"
+		backgroundColor="0x0000FF">
 
 	<fx:Script><![CDATA[
 		import spark.core.SpriteVisualElement;
@@ -42,11 +42,11 @@
 			labelGroup.createFlexLabels();
 		}
 
-		private function onCacheOptionsChange(event:MouseEvent=null):void {
-			if(cacheAsBitmapCheckBox.selected) {
+		private function onCacheOptionsChange(event:MouseEvent = null):void {
+			if (cacheAsBitmapCheckBox.selected) {
 				labelGroup.cacheAsBitmap = true;
 				cacheAsBitmapMatrixCheckBox.enabled = true;
-				if(cacheAsBitmapMatrixCheckBox.selected) {
+				if (cacheAsBitmapMatrixCheckBox.selected) {
 					labelGroup.cacheAsBitmapMatrix = new Matrix();
 				}
 			}
@@ -69,7 +69,8 @@
 
 			<s:VGroup width="100%" height="100%">
 				<s:CheckBox id="cacheAsBitmapCheckBox" click="onCacheOptionsChange(event)" label="Cache As Bitmap"/>
-				<s:CheckBox id="cacheAsBitmapMatrixCheckBox" click="onCacheOptionsChange(event)" label="Cache As Bitmap Matrix"/>
+				<s:CheckBox id="cacheAsBitmapMatrixCheckBox" click="onCacheOptionsChange(event)"
+						label="Cache As Bitmap Matrix"/>
 			</s:VGroup>
 			<s:VGroup width="100%" height="100%">
 				<s:Button id="flexButton" label="Run Spark Label Test" click="createFlexLabels();"/>
