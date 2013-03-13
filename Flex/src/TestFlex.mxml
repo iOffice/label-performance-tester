@@ -21,25 +21,31 @@
 			element.addChild(stats);
 			addElement(element);
 
-			bitmapLogView.stats = stats;
-			flashLogView.stats = stats;
-			flexLogView.stats = stats;
+			flexLabelBitmapLogView.stats = stats;
+			flexLabelLogView.stats = stats;
+			textFieldBitmapLogView.stats = stats;
+			textFieldLogView.stats = stats;
 			onCacheOptionsChange();
 		}
 
-		private function createBitmapLabels():void {
-			labelGroup.logView = bitmapLogView;
-			labelGroup.createBitmapLabels();
-		}
-
-		private function createFlashLabels():void {
-			labelGroup.logView = flashLogView;
-			labelGroup.createFlashLabels();
+		private function createFlexLabelBitmap():void {
+			labelGroup.logView = flexLabelBitmapLogView;
+			labelGroup.createFlexLabelBitmap();
 		}
 
 		private function createFlexLabels():void {
-			labelGroup.logView = flexLogView;
+			labelGroup.logView = flexLabelLogView;
 			labelGroup.createFlexLabels();
+		}
+
+		private function createTextFieldBitmap():void {
+			labelGroup.logView = textFieldBitmapLogView;
+			labelGroup.createTextFieldBitmap();
+		}
+
+		private function createTextFields():void {
+			labelGroup.logView = textFieldLogView;
+			labelGroup.createTextFields();
 		}
 
 		private function onCacheOptionsChange(event:MouseEvent = null):void {
@@ -73,18 +79,25 @@
 						label="Cache As Bitmap Matrix"/>
 			</s:VGroup>
 			<s:VGroup width="100%" height="100%">
-				<s:Button id="flexButton" label="Run Spark Label Test" click="createFlexLabels();"/>
-				<views:LogView id="flexLogView" width="100%" height="100%"/>
+				<s:Button id="flexLabelButton" label="Run Spark Label Test" click="createFlexLabels();"/>
+				<views:LogView id="flexLabelLogView" width="100%" height="100%"/>
 			</s:VGroup>
 
 			<s:VGroup width="100%" height="100%">
-				<s:Button id="flashButton" label="Run Text Field Test" click="createFlashLabels();"/>
-				<views:LogView id="flashLogView" width="100%" height="100%"/>
+				<s:Button id="textFieldButton" label="Run TextField Test" click="createTextFields();"/>
+				<views:LogView id="textFieldLogView" width="100%" height="100%"/>
 			</s:VGroup>
 
 			<s:VGroup width="100%" height="100%">
-				<s:Button id="bitmapButton" label="Run Bitmap Text Test" click="createBitmapLabels();"/>
-				<views:LogView id="bitmapLogView" width="100%" height="100%"/>
+				<s:Button id="flexLabelBitmapButton" label="Run Spark Label Bitmap Test"
+						click="createFlexLabelBitmap();"/>
+				<views:LogView id="flexLabelBitmapLogView" width="100%" height="100%"/>
+			</s:VGroup>
+
+			<s:VGroup width="100%" height="100%">
+				<s:Button id="textFieldBitmapButton" label="Run TextField Bitmap Test"
+						click="createTextFieldBitmap();"/>
+				<views:LogView id="textFieldBitmapLogView" width="100%" height="100%"/>
 			</s:VGroup>
 
 		</s:HGroup>

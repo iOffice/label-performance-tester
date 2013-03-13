@@ -35,45 +35,27 @@
 		protected var scaleSequence:TimelineLite;
 		private var bitmapData:BitmapData;
 
-		public function createBitmapLabels():void {
+		public function createFlexLabelBitmap():void {
 			logView.logLabel.text = "";
 			var startTime:Date = new Date();
 			var i:int;
 			var count:int = TEST_OBJECT_COUNT;
-			var textField:TextField = new TextField();
+			var label:Label = new Label();
+			addElement(label);
 			bitmapData = new BitmapData(760, 460, true, 0x000000);
 			for (i = 0; i < count; i++) {
-				textField.text = "This is label " + String(i);
-				bitmapData.draw(textField, new Matrix(1, 0, 0, 1, Math.random() * 760, Math.random() * 460));
+				label.text = "This is label " + String(i);
+				label.validateNow();
+				bitmapData.draw(label, new Matrix(1, 0, 0, 1, Math.random() * 760, Math.random() * 460));
 			}
+			removeElement(label);
 			var element:SpriteVisualElement = new SpriteVisualElement();
 			element.addChild(new Bitmap(bitmapData));
 
 			this.addElement(element);
-			logView.logActionTime(startTime, "CREATING Bitmaps");
+			logView.logActionTime(startTime, "CREATING Flex Label Bitmap");
 			addingStartTime = new Date();
 			addingComplete();
-		}
-
-		public function createFlashLabels():void {
-			logView.logLabel.text = "";
-			var startTime:Date = new Date();
-			var i:int;
-			var count:int = TEST_OBJECT_COUNT;
-			for (i = 0; i < count; i++) {
-				var textField:TextField = new TextField();
-				textField.text = "This is label " + String(i);
-
-				var element:SpriteVisualElement = new SpriteVisualElement();
-				element.x = Math.random() * 760;
-				element.y = Math.random() * 460;
-				element.addChild(textField);
-
-				labelList.push(element);
-			}
-			logView.logActionTime(startTime, "CREATING Flash TextFields");
-
-			callLater(addLabels);
 		}
 
 		public function createFlexLabels():void {
@@ -89,6 +71,47 @@
 				labelList.push(label);
 			}
 			logView.logActionTime(startTime, "CREATING Flex Labels");
+
+			callLater(addLabels);
+		}
+
+		public function createTextFieldBitmap():void {
+			logView.logLabel.text = "";
+			var startTime:Date = new Date();
+			var i:int;
+			var count:int = TEST_OBJECT_COUNT;
+			var textField:TextField = new TextField();
+			bitmapData = new BitmapData(760, 460, true, 0x000000);
+			for (i = 0; i < count; i++) {
+				textField.text = "This is label " + String(i);
+				bitmapData.draw(textField, new Matrix(1, 0, 0, 1, Math.random() * 760, Math.random() * 460));
+			}
+			var element:SpriteVisualElement = new SpriteVisualElement();
+			element.addChild(new Bitmap(bitmapData));
+
+			this.addElement(element);
+			logView.logActionTime(startTime, "CREATING TextField Bitmap");
+			addingStartTime = new Date();
+			addingComplete();
+		}
+
+		public function createTextFields():void {
+			logView.logLabel.text = "";
+			var startTime:Date = new Date();
+			var i:int;
+			var count:int = TEST_OBJECT_COUNT;
+			for (i = 0; i < count; i++) {
+				var textField:TextField = new TextField();
+				textField.text = "This is label " + String(i);
+
+				var element:SpriteVisualElement = new SpriteVisualElement();
+				element.x = Math.random() * 760;
+				element.y = Math.random() * 460;
+				element.addChild(textField);
+
+				labelList.push(element);
+			}
+			logView.logActionTime(startTime, "CREATING TextFields");
 
 			callLater(addLabels);
 		}
