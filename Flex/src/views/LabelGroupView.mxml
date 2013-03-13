@@ -42,6 +42,7 @@
 			var count:int = TEST_OBJECT_COUNT;
 			var label:Label = new Label();
 			addElement(label);
+			validateNow();
 			bitmapData = new BitmapData(760, 460, true, 0x000000);
 			for (i = 0; i < count; i++) {
 				label.text = "This is label " + String(i);
